@@ -1,5 +1,7 @@
 package com.projects.qna.service;
 
+import com.projects.qna.exceptions.ServiceError;
+import com.projects.qna.exceptions.ServiceException;
 import com.projects.qna.model.Answer;
 import com.projects.qna.model.AnswerRepository;
 import lombok.Data;
@@ -14,7 +16,7 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
 
     public Answer getAnswer(Long id) {
-        return answerRepository.findById(id).orElseThrow();
+        return answerRepository.findById(id).orElseThrow(() -> new ServiceException(ServiceError.ENTITY_NOT_FOUND));
     }
 
     public List<Answer> getAllAnswers() {
@@ -25,7 +27,7 @@ public class AnswerService {
         return answerRepository.save(answer);
     }
 
-    public Answer updateAnswer(Long id, Answer answer){
+    public Answer updateAnswer(Long id, Answer answer) {
         Answer existingAnswer = getAnswer(id);
         answer.setAnsId(id);
         return answerRepository.save(answer);

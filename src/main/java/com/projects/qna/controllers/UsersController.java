@@ -3,9 +3,9 @@ package com.projects.qna.controllers;
 import com.projects.qna.model.User;
 import com.projects.qna.service.UserService;
 import lombok.Data;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -18,12 +18,7 @@ public class UsersController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getUser(@PathVariable Long id) {
-        try {
-            User user = userService.getUser(id);
-            return ResponseEntity.ok(user);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST);
-        }
+        return ResponseEntity.ok(userService.getUser(id));
     }
 
     @GetMapping
@@ -38,21 +33,17 @@ public class UsersController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateUser(@PathVariable Long id, @RequestBody User user) {
-        try {
-            User updatedUser = userService.updateUser(id, user);
-            return ResponseEntity.ok(updatedUser);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST);
-        }
+        return ResponseEntity.ok(userService.updateUser(id, user));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {
-        try {
-            userService.deleteUser(id);
-            return ResponseEntity.ok("User with id : " + id + " deleted");
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST);
-        }
+        userService.deleteUser(id);
+        return ResponseEntity.ok("User with id : " + id + " deleted");
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<String> handleResponseStatusException(ResponseStatusException e) {
+        return ResponseEntity.status(e.getStatusCode()).body(e.getReason());
     }
 }

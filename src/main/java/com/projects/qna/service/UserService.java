@@ -3,7 +3,9 @@ package com.projects.qna.service;
 import com.projects.qna.model.User;
 import com.projects.qna.model.UserRepository;
 import lombok.Data;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -14,7 +16,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     public User getUser(Long id) {
-        return userRepository.findById(id).orElseThrow();
+        return userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
 
     public List<User> getAllUsers() {
@@ -25,7 +27,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User updateUser(Long id, User user){
+    public User updateUser(Long id, User user) {
         User existingUser = getUser(id);
         user.setUserId(id);
         return userRepository.save(user);
