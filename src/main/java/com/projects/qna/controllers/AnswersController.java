@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.Data;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,19 +32,19 @@ public class AnswersController {
     }
 
     @GetMapping
-    @Operation(summary = "Get all answers",description = "Get all answers in the answers db")
+    @Operation(summary = "Get all answers", description = "Get all answers in the answers db")
     public List<Answer> getAllAnswers() {
         return answerService.getAllAnswers();
     }
 
     @PostMapping
-    public Answer createAnswer(@RequestBody Answer answer) {
+    public Answer createAnswer(@Valid @RequestBody Answer answer) {
         return answerService.createAnswer(answer);
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Update a answer",description = "Update a answer with given ID")
-    public ResponseEntity<Object> updateAnswer(@PathVariable Long id, @RequestBody Answer answer) {
+    @Operation(summary = "Update a answer", description = "Update a answer with given ID")
+    public ResponseEntity<Object> updateAnswer(@PathVariable Long id, @Valid @RequestBody Answer answer) {
         return ResponseEntity.ok(answerService.updateAnswer(id, answer));
     }
 

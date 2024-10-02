@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.Data;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,19 +33,19 @@ public class UsersController {
     }
 
     @GetMapping
-    @Operation(summary = "Get all users",description = "Get all users in the users db")
+    @Operation(summary = "Get all users", description = "Get all users in the users db")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
+    public User createUser(@Valid @RequestBody User user) {
         return userService.createUser(user);
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Update a user",description = "Update a user with given ID")
-    public ResponseEntity<Object> updateUser(@PathVariable Long id, @RequestBody User user) {
+    @Operation(summary = "Update a user", description = "Update a user with given ID")
+    public ResponseEntity<Object> updateUser(@PathVariable Long id, @Valid @RequestBody User user) {
         return ResponseEntity.ok(userService.updateUser(id, user));
     }
 
