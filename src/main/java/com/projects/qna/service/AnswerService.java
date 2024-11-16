@@ -15,6 +15,8 @@ public class AnswerService {
 
     private final AnswerRepository answerRepository;
 
+    private final EntityService entityService;
+
     public Answer getAnswer(Long id) {
         return answerRepository.findById(id).orElseThrow(() -> new ServiceException(ServiceError.ENTITY_NOT_FOUND));
     }
@@ -24,7 +26,13 @@ public class AnswerService {
     }
 
     public Answer createAnswer(Answer answer) {
-        return answerRepository.save(answer);
+        Long currentSequenceValue = entityService.getCurrentSequenceValue("answers_seq");
+        try {
+            return answerRepository.save(answer);
+        } catch (Exception e) {
+            entityService.resetSequenceValue("answers_seq", currentSequenceValue);
+            throw e;
+        }
     }
 
     public Answer updateAnswer(Long id, Answer answer) {
