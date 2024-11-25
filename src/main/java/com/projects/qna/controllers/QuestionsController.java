@@ -12,6 +12,7 @@ import lombok.Data;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -38,8 +39,9 @@ public class QuestionsController {
     }
 
     @PostMapping
-    public Question createQuestion(@Valid @RequestBody Question question) {
-        return questionService.createQuestion(question);
+    public ResponseEntity<Question> createQuestion(@Valid @RequestBody Question question) {
+        Question createdQuestion = questionService.createQuestion(question);
+        return ResponseEntity.created(URI.create("/questions/" + createdQuestion.getQnId())).body(createdQuestion);
     }
 
     @PutMapping("/{id}")

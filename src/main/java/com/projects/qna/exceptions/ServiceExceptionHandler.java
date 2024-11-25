@@ -18,7 +18,7 @@ public class ServiceExceptionHandler {
     }
 
     @Data
-    private static class ServiceErrorBody {
+    public static class ServiceErrorBody {
         private final String code;
         private final String message;
     }
