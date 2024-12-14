@@ -46,7 +46,7 @@ public class AnswersController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Update a answer", description = "Update a answer with given ID")
-    public ResponseEntity<Object> updateAnswer(@PathVariable Long id, @Valid @RequestBody Answer answer) {
+    public ResponseEntity<Answer> updateAnswer(@PathVariable Long id, @Valid @RequestBody Answer answer) {
         return ResponseEntity.ok(answerService.updateAnswer(id, answer));
     }
 

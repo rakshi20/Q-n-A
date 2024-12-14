@@ -10,6 +10,15 @@ spring:
       hibernate:
         boot:
           allow_jdbc_metadata_access: false
+    #        format_sql: true
+    #        use_sql_comments: true
+    #        show_sql: true
     hibernate:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+#logging:
+#  level:
+#    org.hibernate.SQL: DEBUG
+#    org.hibernate.type.descriptōor.sql: TRACE
+#    org.springframework.data.jpa.repository: DEBUG
